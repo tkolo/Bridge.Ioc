@@ -1,35 +1,28 @@
 ﻿using System;
 
-namespace Bridge.Ioc
+namespace Bridge.Ioc.Resolvers
 {
     public class SingleInstanceResolver : IResolver
     {
-        private object _singleInstance;
+        private readonly BridgeIoc _container;
+        private readonly Type _targetType;
+        private object _instance;
 
-        public Func<object> Resolve { get; set; }
-
-        public SingleInstanceResolver(IIoc ioc, Type type)
+        
+        public SingleInstanceResolver(object instance)
         {
-            Resolve = () =>
-            {
-                // first resolve. Using transient resolver
-                if (_singleInstance == null)
-                {
-                    var transientResolver = new TransientResolver(ioc, type);
-                    _singleInstance = transientResolver.Resolve();
-                }
-
-                return _singleInstance;
-            };
+            _instance = instance;
         }
-    }
-
-    public class SingleInstanceResolver<T> : SingleInstanceResolver
-    {
-
-        public SingleInstanceResolver(IIoc ioc) : base(ioc, typeof(T))
+        
+        public SingleInstanceResolver(BridgeIoc container, Type targetType)
         {
+            _container = container;
+            _targetType = targetType;
         }
 
+        public object Resolve()
+        {
+            return _instance ?? (_instance = ResolveHelper.ConstructObject(_container, _targetType));
+        }
     }
 }

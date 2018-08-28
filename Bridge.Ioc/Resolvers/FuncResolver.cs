@@ -1,14 +1,19 @@
 ﻿using System;
 
-namespace Bridge.Ioc
+namespace Bridge.Ioc.Resolvers
 {
-    public class FuncResolver<T> : IResolver
+    public class FuncResolver : IResolver
     {
-        public Func<object> Resolve { get; set; }
+        public Func<object> Resolver { get; set; }
 
-        public FuncResolver(Func<T> resolveFunc)
+        public FuncResolver(Func<object> resolveFunc)
         {
-            this.Resolve = () => resolveFunc();
+            Resolver = resolveFunc;
+        }
+
+        public object Resolve()
+        {
+            return Resolver();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Bridge.Ioc.ExampleApp
 
             var secondContainer = new BridgeIoc();
             secondContainer.RegisterFunc<ISum>(() => new Adder()); // can register func
-            secondContainer.RegisterInstance<ISubtract>(new Subtractor()); // instance
+            secondContainer.RegisterSingleInstance<ISubtract>(new Subtractor()); // instance
             secondContainer.RegisterSingleInstance<ICalc, Calculator>(); // or single instance (singleton)
 
             // transient resolving 

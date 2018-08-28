@@ -1,14 +1,13 @@
-﻿using Bridge.EasyTests.Asserts;
-using Bridge.EasyTests.Attributes;
-using Bridge.Ioc.Test.Classes;
+﻿using Bridge.Ioc.Test.Classes;
 using Bridge.Ioc.Test.Classes.Impl;
+using Bridge.Test.NUnit;
 
 namespace Bridge.Ioc.Test
 {
-    [Test("Transient Resolving")]
+    [TestFixture]
     public class TransientInstance
     {
-        [TestMethod("Register<ITest,TheTest>()")]
+        [Test(Name = "Register<ITest,TheTest>()")]
         public void GenericInterface()
         {
             var container = new BridgeIoc();
@@ -18,11 +17,11 @@ namespace Bridge.Ioc.Test
             var first = container.Resolve<ITest>();
             var second = container.Resolve<ITest>();
 
-            first.ShouldBeNotEquals(second);
-            first.Id.ShouldBeNotEquals(second.Id);
+            Assert.AreNotEqual(first, second);
+            Assert.AreNotEqual(first.Id, second.Id);
         }
         
-        [TestMethod("Register(typeof(ITest),typeof(TheTest))")]
+        [Test(Name = "Register(typeof(ITest),typeof(TheTest))")]
         public void NonGenericInterface()
         {
             var container = new BridgeIoc();
@@ -32,11 +31,11 @@ namespace Bridge.Ioc.Test
             var first = container.Resolve<ITest>();
             var second = container.Resolve<ITest>();
             
-            first.ShouldBeNotEquals(second);
-            first.Id.ShouldBeNotEquals(second.Id);
+            Assert.AreNotEqual(first, second);
+            Assert.AreNotEqual(first.Id, second.Id);
         }
         
-        [TestMethod("Register<TheTest>()")]
+        [Test(Name = "Register<TheTest>()")]
         public void GenericClass()
         {
             var container = new BridgeIoc();
@@ -46,12 +45,12 @@ namespace Bridge.Ioc.Test
             var first = container.Resolve<TheTest>();
             var second = container.Resolve<TheTest>();
             
-            first.ShouldBeNotEquals(second);
-            first.Id.ShouldBeNotEquals(second.Id);
+            Assert.AreNotEqual(first, second);
+            Assert.AreNotEqual(first.Id, second.Id);
             
         }
         
-        [TestMethod("Register(typeof(TheTest))")]
+        [Test(Name = "Register(typeof(TheTest))")]
         public void NonGenericClass()
         {
             var container = new BridgeIoc();
@@ -61,11 +60,11 @@ namespace Bridge.Ioc.Test
             var first = container.Resolve<TheTest>();
             var second = container.Resolve<TheTest>();
             
-            first.ShouldBeNotEquals(second);
-            first.Id.ShouldBeNotEquals(second.Id);
+            Assert.AreNotEqual(first, second);
+            Assert.AreNotEqual(first.Id, second.Id);
         }
         
-        [TestMethod("RegisterFunc(()=> new TheTest())")]
+        [Test(Name = "RegisterFunc(()=> new TheTest())")]
         public void FuncResolve()
         {
             var container = new BridgeIoc();
@@ -74,8 +73,8 @@ namespace Bridge.Ioc.Test
             var first = container.Resolve<TheTest>();
             var second = container.Resolve<TheTest>();
             
-            first.ShouldBeNotEquals(second);
-            first.Id.ShouldBeNotEquals(second.Id);
+            Assert.AreNotEqual(first, second);
+            Assert.AreNotEqual(first.Id, second.Id);
         }
     }
 }
